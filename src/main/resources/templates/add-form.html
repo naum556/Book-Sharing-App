@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css.map">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src ="js/bootstrap.bundle.min.js"></script>
+    <title>Title</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: rgb(255,255,255);
+            background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(142,190,255,1) 0%, rgba(230,235,255,1) 25%);
+            width: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        .navbar {
+            background-color: #0d6efd;
+            z-index: 1;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: white;
+        }
+
+
+        .menu {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 1634px;
+            background-color: #734ee1;
+            padding: 20px;
+            transition: 0.3s ease;
+            transform: translateX(-250px);
+        }
+
+        .menu a {
+            color: white;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .menu ul li {
+            list-style: none;
+        }
+
+        .menu h1 {
+            text-align: center;
+            color: white;
+        }
+
+        .menu ul li a {
+            padding: 20px 0;
+            display: block;
+            font-size: 20px;
+        }
+
+        label input {
+            display: none;
+        }
+
+        .toggle {
+            position: absolute;
+            top: 8px;
+            left: 30px;
+            height: 45px;
+            width: 50px;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .toggle .common {
+            position: absolute;
+            height: 2px;
+            width: 20px;
+            background-color: #ffffff;
+            transition: 0.3s ease;
+        }
+
+        .toggle .top_line {
+            top: 30%;
+        }
+
+        .toggle .middle_line {
+            top: 50%;
+        }
+
+        .toggle .bottom_line {
+            top: 70%;
+        }
+
+        input:checked ~ .menu {
+            transform: translateX(0);
+        }
+
+        #middle{
+            display: flex;
+            justify-content: center;
+        }
+        .boxcontainer{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .slider {
+            width: 1300px;
+            height: 1300px;
+            overflow: hidden;
+            position: relative;
+            margin-top: 8%;
+            margin-left: 20%;
+        }
+
+        .slide {
+            width: 2000px;
+            height: 2000px;
+            position: absolute;
+            top: 0;
+            left: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.5s ease;
+        }
+
+        .slide.active {
+            left: 0;
+        }
+
+        #prevBtn{
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            position: absolute;
+            width: 200px;
+            height: 100px;
+            margin-left: 3%;
+            margin-top: -33%;
+        }
+
+        #nextBtn{
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            position: absolute;
+            width: 200px;
+            height: 100px;
+            margin-left: 89%;
+            margin-top: -33%;
+        }
+
+        #prevBtn:hover, #nextBtn:hover {
+            background-color: #555;
+        }
+
+        .bookshelf{
+            width: 1100px;
+            height: 1100px;
+            background: url("https://cdn.vectorstock.com/i/500p/34/11/wooden-empty-bookshelf-shelves-for-the-warehouse-vector-23473411.jpg") no-repeat center center;
+            background-size: cover;
+            margin-top: 25%;
+            position: absolute;
+            margin-left: 8%;
+        }
+
+        .book{
+            position: relative;
+            display: inline-block;
+        }
+        .book .text{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: 38px;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 35px;
+            opacity: 0;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+            text-align: center;
+        }
+        .book:hover .text {
+            opacity: 1;
+        }
+        .book img{
+            width: 200px;
+            height: 229px;
+            margin-left: 81px;
+            margin-top: 33px;
+            transition: transform 0.3s ease;
+        }
+        .book img:hover{
+            transform: scale(1.2);
+            filter: brightness(30%);
+        }
+
+        .book1{
+            position: relative;
+        }
+        .book1 .text1{
+            position: absolute;
+            margin-top: -11%;
+            left: 35%;
+            margin-left: 38px;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 35px;
+            opacity: 0;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+            text-align: center;
+        }
+        .book1:hover .text1 {
+            opacity: 1;
+        }
+        <!--  -->
+        .book1 img{
+            width: 200px;
+            height: 229px;
+            margin-left: 329px;
+            margin-top: -21%;
+            position: absolute;
+            transition: transform 0.3s ease;
+        }
+        .book1 img:hover{
+            transform: scale(1.2);
+            filter: brightness(30%);
+        }
+
+        .book2{
+            position: relative;
+        }
+        .book2 .text2{
+            position: absolute;
+            margin-top: -11%;
+            margin-left: 676px;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 35px;
+            opacity: 0;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+            text-align: center;
+        }
+        .book2:hover .text2 {
+            opacity: 1;
+        }
+        .book2 img{
+            width: 200px;
+            height: 229px;
+            margin-top: -21%;
+            margin-left: 581px;
+            position: absolute;
+            transition: transform 0.3s ease;
+        }
+        .book2 img:hover{
+            transform: scale(1.2);
+            filter: brightness(30%);
+        }
+
+        .book3{
+            position: relative;
+        }
+        .book3 .text3{
+            position: absolute;
+            margin-top: -11%;
+            left: 80%;
+            margin-left: 38px;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 35px;
+            opacity: 0;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+            text-align: center;
+        }
+        .book3:hover .text3 {
+            opacity: 1;
+        }
+        .book3 img{
+            width: 200px;
+            height: 229px;
+            margin-top: -21%;
+            margin-left: 820px;
+            position: absolute;
+            transition: transform 0.3s ease;
+        }
+        .book3 img:hover{
+            transform: scale(1.2);
+            filter: brightness(30%);
+        }
+
+
+        .book4{
+            position: relative;
+        }
+        .book4 .text4{
+            position: absolute;
+            margin-top: 14%;
+            left: 15%;
+            margin-left: 71px;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 35px;
+            opacity: 0;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+            text-align: center;
+        }
+        .book4:hover .text4 {
+            opacity: 1;
+        }
+        .book4 img{
+            width: 200px;
+            height: 229px;
+            margin-top: 4%;
+            margin-left: 140px;
+            position: absolute;
+            transition: transform 0.3s ease;
+        }
+        .book4 img:hover{
+            transform: scale(1.2);
+            filter: brightness(30%);
+        }
+
+        .book5{
+            position: relative;
+        }
+        .book5 .text5{
+            position: absolute;
+            margin-top: 14%;
+            left: 15%;
+            margin-left: 385px;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 35px;
+            opacity: 0;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+            text-align: center;
+        }
+        .book5:hover .text5 {
+            opacity: 1;
+        }
+        .book5 img{
+            width: 200px;
+            height: 229px;
+            margin-top: 4%;
+            margin-left: 447px;
+            position: absolute;
+            transition: transform 0.3s ease;
+        }
+        .book5 img:hover{
+            transform: scale(1.2);
+            filter: brightness(30%);
+        }
+
+        .book6{
+            position: relative;
+        }
+        .book6 .text6{
+            position: absolute;
+            margin-top: 14%;
+            left: 15%;
+            margin-left: 685px;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 35px;
+            opacity: 0;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+            text-align: center;
+        }
+        .book6:hover .text6 {
+            opacity: 1;
+        }
+        .book6 img{
+            width: 200px;
+            height: 229px;
+            margin-top: 4%;
+            margin-left: 751px;
+            position: absolute;
+            transition: transform 0.3s ease;
+        }
+        .book6 img:hover{
+            transform: scale(1.2);
+            filter: brightness(30%);
+        }
+
+        .book7{
+            position: relative;
+        }
+        .book7 .text7{
+            position: absolute;
+            margin-left: 168px;
+            margin-top: 39%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 35px;
+            opacity: 0;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+            text-align: center;
+        }
+        .book7:hover .text7 {
+            opacity: 1;
+        }
+        .book7 img{
+            width: 200px;
+            height: 229px;
+            margin-top: 28%;
+            margin-left: 71px;
+            position: absolute;
+            transition: transform 0.3s ease;
+        }
+        .book7 img:hover{
+            transform: scale(1.2);
+            filter: brightness(30%);
+        }
+
+        .book8{
+            position: relative;
+        }
+        .book8 .text8{
+            position: absolute;
+            margin-left: 548px;
+            margin-top: 39%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 35px;
+            opacity: 0;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+            text-align: center;
+        }
+        .book8:hover .text8 {
+            opacity: 1;
+        }
+        .book8 img{
+            width: 200px;
+            height: 229px;
+            margin-top: 28%;
+            margin-left: 450px;
+            position: absolute;
+            transition: transform 0.3s ease;
+        }
+        .book8 img:hover{
+            transform: scale(1.2);
+            filter: brightness(30%);
+        }
+
+
+        .book9{
+            position: relative;
+        }
+        .book9 .text9{
+            position: absolute;
+            margin-left: 924px;
+            margin-top: 39%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 35px;
+            opacity: 0;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+            text-align: center;
+        }
+        .book9:hover .text9 {
+            opacity: 1;
+        }
+        .book9 img{
+            width: 200px;
+            height: 229px;
+            margin-top: 28%;
+            margin-left: 827px;
+            position: absolute;
+            transition: transform 0.3s ease;
+        }
+        .book9 img:hover{
+            transform: scale(1.2);
+            filter: brightness(30%);
+        }
+
+        .book10{
+            position: relative;
+        }
+        .book10 .text10{
+            position: absolute;
+            margin-left: 248px;
+            margin-top: 62%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 35px;
+            opacity: 0;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+            text-align: center;
+        }
+        .book10:hover .text10 {
+            opacity: 1;
+        }
+        .book10 img{
+            width: 200px;
+            height: 229px;
+            margin-top: 52%;
+            margin-left: 150px;
+            position: absolute;
+            transition: transform 0.3s ease;
+        }
+        .book10 img:hover{
+            transform: scale(1.2);
+            filter: brightness(30%);
+        }
+
+        .book11{
+            position: relative;
+        }
+        .book11 .text11{
+            position: absolute;
+            margin-left: 548px;
+            margin-top: 62%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 35px;
+            opacity: 0;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+            text-align: center;
+        }
+        .book11:hover .text11{
+            opacity: 1;
+        }
+        .book11 img{
+            width: 200px;
+            height: 229px;
+            margin-top: 52%;
+            margin-left: 449px;
+            position: absolute;
+            transition: transform 0.3s ease;
+        }
+        .book11 img:hover{
+            transform: scale(1.2);
+            filter: brightness(30%);
+        }
+
+        .book12{
+            position: relative;
+        }
+        .book12 .text12{
+            position: absolute;
+            margin-left: 851px;
+            margin-top: 62%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 35px;
+            opacity: 0;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+            text-align: center;
+        }
+        .book12:hover .text12 {
+            opacity: 1;
+        }
+        .book12 img{
+            width: 200px;
+            height: 229px;
+            margin-top: 52%;
+            margin-left: 751px;
+            position: absolute;
+            transition: transform 0.3s ease;
+        }
+        .book12 img:hover{
+            transform: scale(1.2);
+            filter: brightness(30%);
+        }
+
+
+        .book .text, .book1 .text1, .book2 .text2, .book3 .text3,
+        .book4 .text4, .book5 .text5, .book6 .text6, .book7 .text7,
+        .book8 .text8, .book9 .text9, .book10 .text10,
+        .book11 .text11, .book12 .text12{
+            pointer-events: none;
+        }
+
+        .container1 {
+            display: flex;
+            justify-content: space-evenly;
+            margin-top: -35%;
+            margin-left: -44%;
+        }
+
+        .select-image{
+            background-color: #0a58ca;
+            border-radius: 30px;
+            border: none;
+            color: white;
+            text-align: center;
+            font-size: 20px;
+            width: 209px;
+            height: 64px;
+            margin-left: 138px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all .3s ease;
+        }
+
+        .select-image:hover{
+            background-color: #357cec;
+        }
+
+        .img-container{
+            width: 500px;
+            height: 500px;
+            background-color: #7191cb;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            margin-top: 182px;
+        }
+
+        .img-area{
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 75%;
+            height: 303px;
+            background-color: #f5f5f5;
+            border-radius: 15px;
+            text-align: center;
+            margin-left: 63px;
+
+        }
+
+
+        .img-area p{
+            font-weight: 500;
+            font-size: 20px;
+            color: #999;
+
+        }
+
+        .img-area p span{
+            font-weight: 700;
+            color: black;
+        }
+
+        .img-area img{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            z-index: 1;
+        }
+
+        .img-area::before{
+            content: attr(data-img);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0, .5);
+            color: #fff;
+            font-weight: 500;
+            text-align: center;
+            justify-content: center;
+            pointer-events: none;
+            opacity: 0;
+            transition: all .3s ease;
+            z-index: 2;
+        }
+
+        .img-area.active:hover::before{
+            opacity: 1;
+        }
+
+        .data-img{
+            line-height: 20px;
+        }
+
+        .input-box{
+            padding: 35px;
+        }
+
+        #bookname{
+            width: 363px;
+            height: 45px;
+        }
+
+        #author{
+            width: 363px;
+            height: 45px;
+        }
+
+
+        .container2{
+            display: flex;
+            margin-top: -68%;
+            margin-left: -73%;
+
+        }
+
+        .rent {
+            width: 500px;
+            height: 665px;
+            background-color: #25fd25;
+            border: none;
+            border-radius: 25px;
+            text-align: center;
+            color: white;
+            font-size: 48px;
+            line-height: 210px;
+            transition: transform 0.3s ease;
+            margin-right: 36px;
+            box-shadow: 2px 6px 40px 0px #FEA600;
+            background-image: linear-gradient(to right, #0dbb13 48px, #0dbb13 50px, transparent 50px);
+        }
+
+        .add {
+            width: 500px;
+            height: 665px;
+            border: none;
+            background-color: #ff3f3f;
+            border-radius: 25px;
+            text-align: center;
+            color: white;
+            font-size: 48px;
+            line-height: 210px;
+            transition: transform 0.3s ease;
+            box-shadow: 2px 6px 40px 0px #FEA600;
+            background-image: linear-gradient(to right, #D11F2F 48px, #ba0716 50px, transparent 50px);
+        }
+
+        .rent:hover{
+            transform: scale(1.2);
+        }
+
+        .add:hover{
+            transform: scale(1.2);
+        }
+
+        .rent-book{
+            width: 200px;
+            height: 250px;
+            background-color: white;
+            margin-top: 55px;
+            margin-left: 30%;
+            border-radius: 10px;
+        }
+
+        .add-book{
+            width: 200px;
+            height: 250px;
+            background-color: white;
+            margin-top: 55px;
+            margin-left: 30%;
+            border-radius: 10px;
+        }
+
+        .rent-book p{
+            color: #25fd25;
+            text-align: center;
+            font-size: 120px;
+            font-weight: bolder;
+        }
+
+        .add-book p{
+            color: #ff3f3f;
+            text-align: center;
+            font-size: 140px;
+            font-weight: bolder;
+        }
+
+        #slide-1{
+            width: 1100px;
+            height: 1100px;
+        }
+
+        .box img{
+            position: absolute;
+            width: 60px;
+            height: 90px;
+        }
+
+        .box img:nth-child(1){
+            top: 12%;
+            left: 42%;
+            animation: animate 10s linear infinite;
+        }
+        .box img:nth-child(2){
+            top: 70%;
+            left: 50%;
+            animation: animate 7s linear infinite;
+        }
+        .box img:nth-child(3){
+            top: 14%;
+            left: 6%;
+            animation: animate 9s linear infinite;
+        }
+        .box img:nth-child(4){
+            top: 20%;
+            left: 60%;
+            animation: animate 10s linear infinite;
+        }
+        .box img:nth-child(5){
+            top: 67%;
+            left: 10%;
+            animation: animate 6s linear infinite;
+        }
+        .box img:nth-child(6){
+            top: 80%;
+            left: 78%;
+            animation: animate 12s linear infinite;
+        }
+        .box img:nth-child(7){
+            top: 60%;
+            left: 80%;
+            animation: animate 15s linear infinite;
+        }
+        .box img:nth-child(8){
+            top: 32%;
+            left: 25%;
+            animation: animate 16s linear infinite;
+        }
+        .box img:nth-child(9){
+            top: 90%;
+            left: 25%;
+            animation: animate 9s linear infinite;
+        }
+        .box img:nth-child(10){
+            top: 17%;
+            left: 82%;
+            animation: animate 5s linear infinite;
+        }
+
+        .box img:nth-child(11){
+            top: 40%;
+            left: 75%;
+            animation: animate 4s linear infinite;
+        }
+
+        .box img:nth-child(12){
+            top: 63%;
+            left: 29%;
+            animation: animate 3s linear infinite;
+        }
+
+        .box img:nth-child(13){
+            top: 46%;
+            left: 7%;
+            animation: animate 5s linear infinite;
+        }
+
+        .box img:nth-child(14){
+            top: 6%;
+            left: 85%;
+            animation: animate 4s linear infinite;
+        }
+
+        .box img:nth-child(15){
+            top: 171%;
+            left: 45%;
+            animation: animate 6s linear infinite;
+        }
+
+        .box img:nth-child(16){
+            top: 43%;
+            left: 45%;
+            animation: animate 6s linear infinite;
+        }
+
+        .box img:nth-child(17){
+            top: 56%;
+            left: 20%;
+            animation: animate 6s linear infinite;
+        }
+
+
+        .box img:nth-child(18){
+            top: 48%;
+            left: 91%;
+            animation: animate 6s linear infinite;
+        }
+
+
+        .box img:nth-child(19){
+            top: 79%;
+            left: 14%;
+            animation: animate 6s linear infinite;
+        }
+
+
+        .box img:nth-child(20){
+            top: 51%;
+            left: 51%;
+            animation: animate 6s linear infinite;
+        }
+
+        .box img:nth-child(21){
+            top: 28%;
+            left: 71%;
+            animation: animate 6s linear infinite;
+        }
+
+        .box img:nth-child(22){
+            top: 26%;
+            left: 7%;
+            animation: animate 6s linear infinite;
+        }
+
+        .box img:nth-child(23){
+            top: 1%;
+            left: 10%;
+            animation: animate 6s linear infinite;
+        }
+
+        @keyframes animate{
+            0%{
+                transform: scale(0) translateY(0) rotate(0);
+                opacity: 1;
+            }
+            100%{
+                transform: scale(1.3) translateY(-90px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        #submit{
+            width: 250px;
+            height: 65px;
+            border: none;
+            background: linear-gradient(to right, #0d6efd, #ea3c3c);
+            color: white;
+            border-radius: 20px;
+            margin-left: 10%;
+            margin-top: 1%;
+            position: absolute;
+            font-size: 30px;
+            font-weight: 700;
+            transition: transform 0.3s ease;
+        }
+
+        #submit:hover{
+            transform: scale(1.1);
+        }
+
+        .form-group{
+            padding: 20px;
+        }
+
+        .form-group label{
+            font-size: 25px;
+            color: white;
+        }
+
+        .form-group input{
+            height: 50px;
+            width: 600px;
+        }
+
+        #author{
+            height: 50px;
+            width: 600px;
+        }
+
+        .container1{
+            margin-top: -37%;
+            width: 55%;
+            height: 59%;
+            background: rgb(145, 21, 156);
+            background: linear-gradient(90deg, rgba(145, 21, 156, 1) 0%, rgba(224, 23, 237, 1) 89%, rgba(109, 11, 124, 1) 100%);
+            border-radius: 35px;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+<!--Navbar-->
+
+<nav class="navbar navbar-expand-lg">
+    <label>
+        <input type="checkbox">
+        <div class="toggle">
+            <span class="top_line common"></span>
+            <span class="middle_line common"></span>
+            <span class="bottom_line common"></span>
+        </div>
+
+        <div class="menu">
+            <h1>Menu</h1>
+            <ul>
+                <li><a href="/home"><i class="bi bi-house"></i> Home</a></li>
+                <li><a href="/books"><i class="bi bi-search"></i> Search Books</a></li>
+                <li><a href="/books/add-form"><i class="bi bi-book"></i> Add Book</a></li>
+                <li><a href="/books/myBooks"><i class="bi bi-bookshelf"></i> My Library</a></li>
+                <li><a href="/logout"> Sign Out</a></li>
+            </ul>
+        </div>
+    </label>
+</nav>
+
+<!-- Main -->
+
+
+
+<main id="main">
+
+
+    <div class="wrapper">
+        <div class="box">
+            <img src="https://d3525k1ryd2155.cloudfront.net/h/009/976/1042976009.0.l.jpg">
+            <img src="https://m.media-amazon.com/images/I/71-++hbbERL._AC_UF1000,1000_QL80_.jpg">
+            <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1642985638l/58862873.jpg">
+            <img src="https://m.media-amazon.com/images/I/71JTigjz8hL.jpg">
+            <img src="https://marketplace.canva.com/EAFaQMYuZbo/1/0/1003w/canva-brown-rusty-mystery-novel-book-cover-hG1QhA7BiBU.jpg">
+            <img src="https://s37710.pcdn.co/wp-content/uploads/sites/3/2021/08/9781948226448.jpg">
+            <img src="https://m.media-amazon.com/images/I/91U7HNa2NQL._AC_UF1000,1000_QL80_.jpg">
+            <img src="https://external-preview.redd.it/UiJQhwE5a9RDcHMZMKgAVj3s3qUSaJcJAJptQI8SLqg.jpg?auto=webp&s=5224300ba853eb42ebd0ede451d795e3640cbba4">
+            <img src="https://pictures.abebooks.com/isbn/9780233003795-us.jpg">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4LINF-7fswSv4Sx2SDsBBAUt7h4tUXnjLBsEFhsofb8cGZdAQqLMFuZsUKYtqbZpKqAQ&usqp=CAU">
+            <img src="https://i0.wp.com/solomon.io/wp-content/uploads/2018/01/1984-Cover.png?resize=507%2C659&ssl=1">
+            <img src="https://hlaagency.co.uk/wp-content/uploads/2019/07/71f1FoY7DqL.jpg">
+            <img src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/contemporary-fiction-night-time-book-cover-design-template-1be47835c3058eb42211574e0c4ed8bf_screen.jpg?ts=1698210220">
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/hd/02bbc540531495.57836e92d8e40.jpg">
+            <img src="https://d3525k1ryd2155.cloudfront.net/h/009/976/1042976009.0.l.jpg">
+            <img src="https://cdn.europosters.eu/image/1300/art-photo/harry-potter-deathly-hallows-book-cover-i214933.jpg">
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/hd/02bbc540531495.57836e92d8e40.jpg">
+            <img src="https://m.media-amazon.com/images/I/71JTigjz8hL.jpg">
+            <img src="https://pictures.abebooks.com/isbn/9780233003795-us.jpg">
+            <img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1346674530i/15814104.jpg">
+            <img src="https://cdn.europosters.eu/image/1300/art-photo/harry-potter-deathly-hallows-book-cover-i214933.jpg">
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/hd/02bbc540531495.57836e92d8e40.jpg">
+            <img src="https://m.media-amazon.com/images/I/71JTigjz8hL.jpg">
+        </div>
+    </div>
+
+
+    <div class="slider">
+        <div class="slide" id="slide-1">
+            <h1 style="margin-top: -84%; position: absolute; margin-left: 9%">Choose the right genre for your book</h1>
+            <div class="bookshelf">
+                <div class="book">
+                    <img src="https://d3525k1ryd2155.cloudfront.net/h/009/976/1042976009.0.l.jpg">
+                    <div class="text">Horror</div>
+                </div>
+                <div class="book1">
+                    <img src="https://images.penguinrandomhouse.com/cover/9780593099322">
+                    <div class="text1">Sci-Fi</div>
+                </div>
+                <div class="book2">
+                    <img src="https://m.media-amazon.com/images/I/61yfrZ2fQ1L._AC_UF894,1000_QL80_.jpg">
+                    <div class="text2">Fantasy</div>
+                </div>
+                <div class="book3">
+                    <img src="https://i.redd.it/wkgmu20372db1.jpg">
+                    <div class="text3">Western</div>
+                </div>
+                <div class="book4">
+                    <img src="https://shereads.com/wp-content/uploads/2020/02/81gHqxKP2sL.jpg">
+                    <div class="text4">Romance</div>
+                </div>
+                <div class="book5">
+                    <img src="https://cdn.kobo.com/book-images/db1bdba3-a7a2-4068-beaa-f120549d63e1/1200/1200/False/the-autobiography-of-benjamin-franklin-1706-1757.jpg">
+                    <div class="text5">Autobiography</div>
+                </div>
+                <div class="book6">
+                    <img src="https://m.media-amazon.com/images/I/71OXQZezcnL._AC_UF1000,1000_QL80_.jpg">
+                    <div class="text6">History</div>
+                </div>
+                <div class="book7">
+                    <img src="https://img.buzzfeed.com/buzzfeed-static/static/2021-12/20/0/asset/44f5c58f5188/sub-buzz-5961-1639958921-3.jpg?downsize=900:*&output-format=auto&output-quality=auto">
+                    <div class="text7">Thriller</div>
+                </div>
+                <div class="book8">
+                    <img src="https://assets.brightspot.abebooks.a2z.com/dims4/default/24dc5fd/2147483647/strip/true/crop/300x451+0+9/resize/253x380!/quality/90/?url=http%3A%2F%2Fabebooks-brightspot.s3.us-west-2.amazonaws.com%2F66%2F88%2F6f3ee717225071ede5ef887c4320%2Farthur-conan-doyle.jpg">
+                    <div class="text8">Mystery</div>
+                </div>
+                <div class="book9">
+                    <img src="https://i0.wp.com/www.printmag.com/wp-content/uploads/2020/06/b960fb_7793b26299ad4281a2da16104718c413mv2.jpg?resize=575%2C856&quality=89&ssl=1">
+                    <div class="text9">Novel</div>
+                </div>
+                <div class="book10">
+                    <img src="https://m.media-amazon.com/images/I/81R2N4PRuUL._AC_UF1000,1000_QL80_.jpg">
+                    <div class="text10">Comedy</div>
+                </div>
+                <div class="book11">
+                    <img src="https://images.squarespace-cdn.com/content/v1/53d9a06de4b084c4e8089ce0/622a9df6-d057-4b9f-8193-6a2bcd67894f/9780593356159-us.jpg">
+                    <div class="text11">Fiction</div>
+                </div>
+                <div class="book12">
+                    <img src="https://preview.redd.it/im-working-on-a-reacher-book-cover-for-bad-luck-and-trouble-v0-c420toaceold1.jpeg?auto=webp&s=31793e671ab09ae18f6628d70d85da06a9b86614">
+                    <div class="text12">Action</div>
+                </div>
+            </div>
+        </div>
+        <div class="slide" id="slide-2">
+            <h1 style="text-align: center;margin-top: -88%; margin-left: -38%;position: absolute; font-size: 60px">Choose to share your book or rent it.</h1>
+            <main id="middle">
+                <div class="container2">
+                    <button class="rent">
+                        <div class="rent-book">
+                            <p>$</p>
+                        </div>
+                        <p>Rent your book</p>
+                    </button>
+                    <button class="add">
+                        <div class="add-book">
+                            <p>+</p>
+                            <p>0</p>
+                        </div>
+                        <p>Share your book</p>
+                    </button>
+
+                </div>
+
+            </main>
+        </div>
+        <div class="slide" id="slide-3">
+            <h1 style="margin-top: -1658px;position: absolute;margin-left: -43%; margin-top: -98%;">Describe your book.</h1>
+
+            <div class="container1">
+                <form id="form" method="POST" action="/books/add">
+                    <input id="id" type="hidden" name="id" th:value="(${book} !=null ? ${book.getId()} : '')">
+                    <div class="form-group">
+                        <label for="username">Added By:</label>
+                        <input type="text" id="username" name="username" class="form-control" th:value="${currentUser.getUsername()}" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Enter Book Name:</label>
+                        <input type="text"
+                               class="form-control"
+                               id="name"
+                               name="name"
+                               th:value="(${book} != null ? ${book.getName()} : '')"
+                               required
+                               placeholder="Enter the book's name">
+                    </div>
+                    <div class="form-group">
+                        <label for="author">Enter Book Author:</label>
+                        <input type="text"
+                               class="form-control"
+                               id="author"
+                               name="author"
+                               th:value="(${book} != null ? ${book.getAuthor()} : '')"
+                               required
+                               placeholder="Enter the book's author">
+                    </div>
+                    <div class="form-group">
+                        <label for="desc">Enter Book Description:</label>
+                        <textarea style="height: 200px;" type="text"
+                                  class="form-control"
+                                  id="desc"
+                                  name="desc"
+                                  th:value="(${book} != null ? ${book.getDesc()} : '')"
+                                  required
+                                  placeholder="Enter a brief description"></textarea>
+                    </div>
+                    <div class="form-group" id="price-container">
+                        <label for="price">Enter Book Price:</label>
+                        <input type="text"
+                               class="form-control"
+                               id="price"
+                               name="price"
+                               th:value="(${book} != null ? ${book.getPrice()} : '')"
+                               required
+                               placeholder="Enter the book's price">
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Book Category:</label>
+                        <input type="text"
+                               class="form-control"
+                               id="category"
+                               name="category"
+                               th:value="(${book} != null ? ${book.getCategory()} : '')"
+                               required
+                               readonly
+                               placeholder="Enter the book's category">
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Enter Book Image:</label>
+                        <input type="text"
+                               class="form-control"
+                               id="image"
+                               name="image"
+                               th:value="(${book} != null ? ${book.getImage()} : '')"
+                               required
+                               placeholder="Enter the book's image">
+                    </div>
+                    <div class="form-group">
+                        <label for="availableCopies">Enter Copies:</label>
+                        <input type="number"
+                               class="form-control"
+                               id="availableCopies"
+                               name="availableCopies"
+                               th:value="(${book} != null ? ${book.getAvailableCopies()} : '')"
+                               required
+                               placeholder="Enter number of copies">
+                    </div>
+
+                    <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
+
+</main>
+
+
+
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    let selectedGenre = ''; // Variable to hold the selected genre
+
+    // Function to show a specific slide
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+        currentSlide = index;
+
+        // If on slide 3, populate the category input field with the selected genre
+        if (index === 2 && selectedGenre) {
+            const categoryInput = document.getElementById('category');
+            categoryInput.value = selectedGenre; // Set the selected genre to the category input
+        }
+    }
+
+    // Initialize the first slide as active
+    showSlide(currentSlide);
+
+    // Event listeners for genre selection (books)
+    const books = document.querySelectorAll('.bookshelf .book, .bookshelf .book1, .bookshelf .book2, .bookshelf .book3, .bookshelf .book4, .bookshelf .book5, .bookshelf .book6, .bookshelf .book7, .bookshelf .book8, .bookshelf .book9, .bookshelf .book10, .bookshelf .book11, .bookshelf .book12');
+
+    books.forEach(book => {
+        book.addEventListener('click', () => {
+            // Get the genre text from the clicked book
+            const genreText = book.querySelector('div').textContent;
+            selectedGenre = genreText; // Store the selected genre
+
+            // Go to slide 2 when a genre is clicked
+            showSlide(1);
+        });
+    });
+
+    // Rent button functionality
+    document.querySelector('.rent').addEventListener('click', () => {
+        // Show slide 3
+        showSlide(2);
+
+    });
+
+    // Add button functionality
+    document.querySelector('.add').addEventListener('click', () => {
+        // Set the price to 0
+        const priceInput = document.getElementById('price');
+        priceInput.value = '0'; // Set price to 0
+
+        priceInput.setAttribute('readonly', true);
+
+        // Show slide 3
+        showSlide(2);
+    });
+
+</script>
+
+
+</body>
+</html>
