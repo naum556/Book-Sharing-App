@@ -13,7 +13,10 @@ public class Book{
      private Long id;
      private String name;
      private String author;
+
+     @Column(name = "description")
      private String desc;
+
      private float price;
      private String category;
      private String image;
