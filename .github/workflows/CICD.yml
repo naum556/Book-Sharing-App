@@ -23,7 +23,7 @@ jobs:
         ports:
           - 5432:5432
         options: >-
-          --health-cmd="pg_isready -U postgres -d demo"
+          --health-cmd=pg_isready
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -73,9 +73,6 @@ jobs:
       - name: Check Kubernetes cluster
         run: kubectl get nodes
 
-      - name: Create namespace
-        run: kubectl apply -f k8s/namespace.yml
-
       - name: Create Kubernetes secrets
         run: |
           kubectl create secret generic db-secret --namespace demo --from-literal=POSTGRES_DB="${{ secrets.POSTGRES_DB }}" --from-literal=POSTGRES_USER="${{ secrets.POSTGRES_USER }}" --from-literal=POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" --dry-run=client -o yaml | kubectl apply -f -
@@ -83,7 +80,7 @@ jobs:
           kubectl create secret generic demo-app-secret --namespace demo --from-literal=SPRING_DATASOURCE_USERNAME="${{ secrets.POSTGRES_USER }}" --from-literal=SPRING_DATASOURCE_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Apply Kubernetes manifests
-        run: kubectl apply -f k8s/ -n demo
+        run: kubectl apply -f k8s/ --ignore-not-found=true -n demo
 
       - name: Restart application deployment
         run: kubectl rollout restart deployment/demo-app -n demo
