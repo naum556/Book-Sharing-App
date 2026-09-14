@@ -73,6 +73,9 @@ jobs:
       - name: Check Kubernetes cluster
         run: kubectl get nodes
 
+      - name: Create namespace
+        run: kubectl apply -f k8s/namespace.yml
+
       - name: Apply Kubernetes manifests
         run: kubectl apply -f k8s/ -n demo
 
