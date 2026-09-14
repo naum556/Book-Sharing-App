@@ -17,9 +17,9 @@ jobs:
       postgres:
         image: postgres:16
         env:
-          POSTGRES_DB: demo
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB:  ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         ports:
           - 5432:5432
         options: >-
@@ -42,9 +42,9 @@ jobs:
       - name: Build and test with Maven
         run: ./mvnw clean package
         env:
-          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/demo
-          SPRING_DATASOURCE_USERNAME: postgres
-          SPRING_DATASOURCE_PASSWORD: postgres
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/${{ secrets.POSTGRES_DB }}
+          SPRING_DATASOURCE_USERNAME: ${{ secrets.POSTGRES_USER }}
+          SPRING_DATASOURCE_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
@@ -76,14 +76,14 @@ jobs:
       - name: Create namespace
         run: kubectl apply -f k8s/namespace.yml
 
-      - name: Apply Kubernetes manifests
-        run: kubectl apply -f k8s/ -n demo
-
       - name: Create Kubernetes secrets
         run: |
           kubectl create secret generic db-secret --namespace demo --from-literal=POSTGRES_DB="${{ secrets.POSTGRES_DB }}" --from-literal=POSTGRES_USER="${{ secrets.POSTGRES_USER }}" --from-literal=POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" --dry-run=client -o yaml | kubectl apply -f -
-
+          
           kubectl create secret generic demo-app-secret --namespace demo --from-literal=SPRING_DATASOURCE_USERNAME="${{ secrets.POSTGRES_USER }}" --from-literal=SPRING_DATASOURCE_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Apply Kubernetes manifests
+        run: kubectl apply -f k8s/ -n demo
 
       - name: Restart application deployment
         run: kubectl rollout restart deployment/demo-app -n demo
