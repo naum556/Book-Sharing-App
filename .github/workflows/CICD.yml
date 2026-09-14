@@ -80,7 +80,7 @@ jobs:
           kubectl create secret generic demo-app-secret --namespace demo --from-literal=SPRING_DATASOURCE_USERNAME="${{ secrets.POSTGRES_USER }}" --from-literal=SPRING_DATASOURCE_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Apply Kubernetes manifests
-        run: kubectl apply -f k8s/ --ignore-not-found=true -n demo
+        run: kubectl apply -f k8s/ 
 
       - name: Restart application deployment
         run: kubectl rollout restart deployment/demo-app -n demo
